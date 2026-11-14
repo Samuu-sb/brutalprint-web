@@ -1,0 +1,8 @@
+# Sitio estático: Netlify sirve la raíz tal cual (los HTML ya están generados).
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
