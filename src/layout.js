@@ -14,8 +14,8 @@ const ico = {
 };
 
 const nav = [
-  ['tienda.html', 'Tienda'], ['cotizar.html', 'Cotizar'], ['personalizar.html', 'Personalizar'],
-  ['precios.html', 'Precios por volumen'], ['nichos.html', 'Para tu negocio'], ['dtf.html', 'DTF por metro'],
+  ['tienda.html', 'Tienda'], ['personalizar.html', 'Personalizar'],
+  ['precios.html', 'Precios'], ['nichos.html', 'Para tu proyecto'], ['dtf.html', 'DTF por metro'],
   ['portafolio.html', 'Portafolio'], ['seguimiento.html', 'Mi pedido'], ['mayoristas.html', 'Mayoristas', 'hot']
 ];
 
@@ -45,8 +45,8 @@ function header(current) {
   return `<body${current ? '' : ''}>
 <a class="sr" href="#main">Saltar al contenido</a>
 <div class="topbar"><div class="wrap">
-  <span>⚡ DTF en 2–3 días · Prueba de diseño gratis</span>
-  <span class="t-extra">Abono del ${cfg.depositPct}% · Yappy · Transferencia · Tarjeta</span>
+  <span>⚡ DTF en 3–4 días hábiles · Personaliza tu estilo</span>
+  <span class="t-extra">Abono del ${cfg.depositPct}% · Yappy · Transferencia</span>
   <span class="t-links"><a href="envios.html">Envíos</a><a href="faq.html">Preguntas</a><a href="contacto.html">Contacto</a></span>
 </div></div>
 <header class="header"><div class="wrap">
@@ -71,12 +71,12 @@ function footer() {
   <div class="cols">
     <div>
       <img class="fl" src="assets/img/logo-light.webp" alt="Brutal Print Panamá" width="160" height="57" loading="lazy">
-      <p>Serigrafía, DTF y sublimación en Panamá. Del diseño al producto terminado, con prueba de arte antes de producir.</p>
-      <div class="pay-pills" aria-label="Métodos de pago"><span>Yappy</span><span>Transferencia</span><span>Tarjeta</span><span>Efectivo</span></div>
+      <p>Serigrafía, DTF, sublimación e impresión 3D en Panamá. Del diseño al producto terminado, con prueba de arte antes de producir.</p>
+      <div class="pay-pills" aria-label="Métodos de pago"><span>Yappy</span><span>Transferencia</span><span>Efectivo</span></div>
     </div>
     <div><h4>Tienda</h4><ul>
-      <li><a href="tienda.html">Todos los productos</a></li><li><a href="cotizar.html">Cotizar</a></li><li><a href="personalizar.html">Personalizador</a></li>
-      <li><a href="precios.html">Precios por volumen</a></li><li><a href="dtf.html">DTF por metro</a></li><li><a href="mayoristas.html">Mayoristas</a></li></ul></div>
+      <li><a href="tienda.html">Todos los productos</a></li><li><a href="personalizar.html">Personalizador</a></li>
+      <li><a href="precios.html">Precios</a></li><li><a href="dtf.html">DTF por metro</a></li><li><a href="mayoristas.html">Mayoristas</a></li></ul></div>
     <div><h4>Ayuda</h4><ul>
       <li><a href="seguimiento.html">Seguimiento de pedido</a></li><li><a href="envios.html">Envíos y entregas</a></li><li><a href="devoluciones.html">Cambios y garantía</a></li>
       <li><a href="faq.html">Preguntas frecuentes</a></li><li><a href="tecnicas.html">¿Qué técnica elegir?</a></li><li><a href="contacto.html">Contacto</a></li></ul></div>
@@ -98,7 +98,8 @@ function footer() {
 function page(p) {
   const scripts = ['config', 'data', 'art', 'app'].concat(p.scripts || []);
   return head(p) + '\n' + header(p.current || p.file) + '\n' + p.body + '\n' + footer() + '\n' +
-    scripts.map(s => `<script src="assets/js/${s}.js"></script>`).join('\n') + '\n</body>\n</html>\n';
+    scripts.map(s => `<script src="assets/js/${s}.js"></script>`).join('\n') + '\n' +
+    (p.modules ? '<script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js","three/addons/":"./assets/vendor/three/"}}</script>\n' + p.modules.map(s => `<script type="module" src="assets/js/${s}.js"></script>`).join('\n') + '\n' : '') + '</body>\n</html>\n';
 }
 
 module.exports = { page, ico, BP };

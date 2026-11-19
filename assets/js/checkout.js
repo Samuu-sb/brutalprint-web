@@ -4,13 +4,16 @@
   const val = n => (form.querySelector(`[name="${n}"]:checked`) || form.elements[n] || {}).value;
   function totals() {
     const sub = BP.cart.subtotal(), s = cfg.shipping[val('ship')] || cfg.shipping.pickup;
-    const ship = (val('ship') === 'city' && sub >= cfg.freeShippingOver) ? 0 : s.price;
+    const ship = sub > cfg.freeShippingOver ? 0 : s.price; // envío gratis a cualquier parte en compras de más de $40
     const total = sub + ship, depPct = +val('dep') || 100, due = Math.round(total * depPct) / 100;
     return { sub, ship, total, depPct, due };
   }
   function paint() {
     const t = totals();
-    $('#addrBox').hidden = val('ship') === 'pickup';
+    const sh = val('ship');
+    $('#addrBox').hidden = sh === 'pickup';
+    $('#adLbl').textContent = sh === 'metro' ? 'Estación del Metro donde quieres recibirlo' : 'Dirección de entrega';
+    $('#ad').placeholder = sh === 'metro' ? 'Nombre de la estación (entregas los sábados)' : 'Provincia, distrito, corregimiento y referencia';
     $('#coSummary').innerHTML = `<h3>Tu pedido</h3>${BP.cart.get().map(it => `<div class="sumrow"><span>${it.qty} × ${BP.esc(BP.getProduct(it.id).name)}<br><small style="color:var(--grey)">${BP.esc(it.color)}${it.size ? ' · ' + BP.esc(it.size) : ''}</small></span><b>${M(BP.cart.unit(it) * it.qty)}</b></div>`).join('')}
 <div class="sumrow"><span>Subtotal</span><b>${M(t.sub)}</b></div><div class="sumrow"><span>Envío</span><b>${t.ship ? M(t.ship) : 'Gratis'}</b></div>
 <div class="sumrow t"><span>Total</span><span>${M(t.total)}</span></div>
@@ -24,7 +27,7 @@
     const nm = val('nm').trim(), ph = val('ph').replace(/\D/g, '');
     if (nm.length < 2) { $('#nm').focus(); BP.toast('Escribe tu nombre'); return; }
     if (ph.length < 7) { $('#ph').focus(); BP.toast('Escribe un WhatsApp válido'); return; }
-    if (val('ship') !== 'pickup' && val('ad').trim().length < 5) { $('#ad').focus(); BP.toast('Agrega la dirección de entrega'); return; }
+    if (val('ship') !== 'pickup' && val('ad').trim().length < 5) { $('#ad').focus(); BP.toast('Agrega la dirección o estación de entrega'); return; }
     const t = totals();
     const code = 'BP-' + String(Date.now()).slice(-5);
     const order = { code, phone4: ph.slice(-4), items: BP.cart.get().map(it => ({ ...it, unit: BP.cart.unit(it) })), ...t, ship_k: val('ship'), pay: val('pay'), customer: { nm, ph, em: val('em'), co: val('co'), ad: val('ad'), dt: val('dt'), nt: val('nt') }, state: 0, created: Date.now() };

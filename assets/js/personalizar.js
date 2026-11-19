@@ -1,12 +1,33 @@
 (function (BP) {
   const { $, $$ } = BP, cv = $('#cv'), ctx = cv.getContext('2d');
-  const prods = ['camiseta-clasica', 'hoodie-clasico', 'gorra-trucker', 'taza-ceramica', 'termo-acero', 'tote-bag'].map(BP.getProduct);
+  const prods = ['camiseta-clasica', 'hoodie-clasico', 'hoodie-sin-capucha', 'gorra-trucker', 'taza-ceramica', 'termo-acero', 'tote-bag'].map(BP.getProduct);
   const st = { p: BP.getProduct(BP.param('p')) || prods[0], ci: 0, x: 0, y: 0, s: 80, r: 0, img: null };
   if (!prods.includes(st.p)) prods.unshift(st.p);
 
   const pathCache = {};
   const P = d => pathCache[d] || (pathCache[d] = new Path2D(d));
   const K = cv.width / 200; // escala viewBox 200 → canvas
+
+  /* ---- Modo 3D (productos con modelo .glb); el resto usa el canvas 2D ---- */
+  let use3d = false;
+  const stage3d = $('#stage3d');
+  function mode() {
+    cv.style.display = use3d ? 'none' : '';
+    stage3d.hidden = !use3d;
+    $('#pzHint').textContent = use3d
+      ? 'Arrastra el diseño para moverlo, toca la prenda para ubicarlo en otra parte y arrastra fuera del diseño para girar la prenda.'
+      : 'Arrastra el diseño sobre la prenda para moverlo.';
+  }
+  function sync3d() {
+    if (!st.p.model || !BP.viewer3d) { use3d = false; mode(); return; }
+    BP.viewer3d.load(st.p.model).then(() => {
+      use3d = true; mode();
+      BP.viewer3d.setColor(st.p.colors[st.ci].hex);
+      if (st.img) BP.viewer3d.setImage(st.img); else BP.viewer3d.removeImage();
+      BP.viewer3d.setScale(st.s); BP.viewer3d.setRotation(st.r);
+    }).catch(() => { use3d = false; mode(); BP.toast('No pudimos cargar el modelo 3D; usamos la vista 2D'); });
+  }
+  window.addEventListener('bp3d-ready', sync3d);
 
   function area() { const a = BP.shapes[st.p.shape].print; return { x: a.x * K, y: a.y * K, w: a.w * K, h: a.h * K }; }
   function center() { const a = area(); st.x = a.x + a.w / 2; st.y = a.y + a.h / 2; }
@@ -34,28 +55,28 @@
       ctx.restore();
     } else {
       ctx.setLineDash([10, 8]); ctx.strokeStyle = light ? 'rgba(0,0,0,.45)' : 'rgba(255,255,255,.55)'; ctx.lineWidth = 3; ctx.strokeRect(a.x, a.y, a.w, a.h); ctx.setLineDash([]);
-      ctx.fillStyle = light ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.7)'; ctx.font = '700 26px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Tu logo aquí', a.x + a.w / 2, a.y + a.h / 2 + 8);
+      ctx.fillStyle = light ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.7)'; ctx.font = '700 26px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Tu diseño aquí', a.x + a.w / 2, a.y + a.h / 2 + 8);
     }
   }
   function ui() {
-    $('#pzProd').innerHTML = prods.map(p => `<button type="button" class="chip" data-id="${p.id}" aria-pressed="${p === st.p}">${p.name.split(' ').slice(0, 2).join(' ')}</button>`).join('');
+    $('#pzProd').innerHTML = prods.map(p => `<button type="button" class="chip" data-id="${p.id}" aria-pressed="${p === st.p}">${p.short || p.name.split(' ').slice(0, 2).join(' ')}</button>`).join('');
     $('#pzColors').innerHTML = st.p.colors.map((c, i) => `<button type="button" style="background:${c.hex}" data-i="${i}" aria-label="${c.n}" aria-pressed="${i === st.ci}"></button>`).join('');
     $('#pzProdLink').href = 'producto-' + st.p.id + '.html';
   }
-  $('#pzProd').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; st.p = BP.getProduct(b.dataset.id); st.ci = 0; center(); ui(); draw(); });
-  $('#pzColors').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; st.ci = +b.dataset.i; ui(); draw(); });
+  $('#pzProd').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; st.p = BP.getProduct(b.dataset.id); st.ci = 0; center(); ui(); draw(); sync3d(); });
+  $('#pzColors').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; st.ci = +b.dataset.i; ui(); draw(); if (use3d) BP.viewer3d.setColor(st.p.colors[st.ci].hex); });
   $('#pzFile').addEventListener('change', e => {
     const f = e.target.files[0]; if (!f) return;
     if (f.size > 8 * 1024 * 1024) { BP.toast('El archivo supera 8 MB'); return; }
     const url = URL.createObjectURL(f), im = new Image();
-    im.onload = () => { st.img = im; center(); $('#pzCtl').hidden = false; draw(); URL.revokeObjectURL(url); };
+    im.onload = () => { st.img = im; center(); $('#pzCtl').hidden = false; draw(); if (use3d) BP.viewer3d.setImage(im); URL.revokeObjectURL(url); };
     im.onerror = () => BP.toast('No pudimos leer esa imagen');
     im.src = url;
   });
-  $('#pzScale').oninput = e => { st.s = +e.target.value; draw(); };
-  $('#pzRot').oninput = e => { st.r = +e.target.value; draw(); };
-  $('#pzCenter').onclick = () => { center(); draw(); };
-  $('#pzRemove').onclick = () => { st.img = null; $('#pzCtl').hidden = true; $('#pzFile').value = ''; draw(); };
+  $('#pzScale').oninput = e => { st.s = +e.target.value; draw(); if (use3d) BP.viewer3d.setScale(st.s); };
+  $('#pzRot').oninput = e => { st.r = +e.target.value; draw(); if (use3d) BP.viewer3d.setRotation(st.r); };
+  $('#pzCenter').onclick = () => { center(); draw(); if (use3d) BP.viewer3d.center(); };
+  $('#pzRemove').onclick = () => { st.img = null; $('#pzCtl').hidden = true; $('#pzFile').value = ''; draw(); if (use3d) BP.viewer3d.removeImage(); };
 
   // arrastrar
   let drag = null;
@@ -64,11 +85,11 @@
   cv.addEventListener('pointermove', e => { if (!drag) return; const p = pos(e); st.x = p.x + drag.dx; st.y = p.y + drag.dy; draw(); });
   cv.addEventListener('pointerup', () => drag = null);
 
-  $('#pzDl').onclick = () => { if (!st.img) { BP.toast('Sube tu logo primero'); return; } const a = document.createElement('a'); a.download = 'vista-previa-brutalprint.png'; a.href = cv.toDataURL('image/png'); a.click(); BP.toast('Vista previa descargada ✔'); };
+  $('#pzDl').onclick = () => { if (!st.img) { BP.toast('Sube tu diseño primero'); return; } const a = document.createElement('a'); a.download = 'vista-previa-brutalprint.png'; a.href = use3d ? BP.viewer3d.snapshot() : cv.toDataURL('image/png'); a.click(); BP.toast('Vista previa descargada ✔'); };
   $('#pzWa').onclick = () => {
     const q = +$('#pzQty').value || 1;
-    window.open(BP.wa(`Hola Brutal Print, armé una vista previa en el personalizador:\n• Producto: ${st.p.name} (${st.p.colors[st.ci].n})\n• Cantidad: ${q}\nTe adjunto mi logo y la imagen de la vista previa.`), '_blank', 'noopener');
+    window.open(BP.wa(`Hola Brutal Print, armé una vista previa en el personalizador:\n• Producto: ${st.p.name} (${st.p.colors[st.ci].n})\n• Cantidad: ${q}\nTe adjunto mi diseño y la imagen de la vista previa.`), '_blank', 'noopener');
     BP.track('lead', { source: 'personalizador' });
   };
-  center(); ui(); draw();
+  center(); ui(); draw(); sync3d();
 })(window.BP);

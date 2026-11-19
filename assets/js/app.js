@@ -33,7 +33,7 @@
     clear() { BP.cart.save([]); },
     count() { return BP.cart.get().reduce((a, b) => a + b.qty, 0); },
     qtyOf(id) { return BP.cart.get().filter(x => x.id === id).reduce((a, b) => a + b.qty, 0); },
-    unit(it) { return BP.unitPrice(BP.getProduct(it.id), BP.cart.qtyOf(it.id)); },
+    unit(it) { return BP.unitPrice(BP.getProduct(it.id)); },
     subtotal() { return BP.cart.get().reduce((a, it) => a + BP.cart.unit(it) * it.qty, 0); },
     badge() { const b = $q('#cartCount'); if (!b) return; const n = BP.cart.count(); b.textContent = n || ''; b.dataset.n = n; }
   };
@@ -80,7 +80,7 @@
       const v = q.value.trim().toLowerCase();
       if (v.length < 2) { sg.classList.remove('on'); return; }
       const r = BP.products.filter(p => (p.name + ' ' + p.cat + ' ' + p.techs.join(' ')).toLowerCase().includes(v)).slice(0, 5);
-      sg.innerHTML = r.length ? r.map(p => `<a href="producto-${p.id}.html"><span class="th">${BP.art(p.shape, p.colors[0].hex, { print: false })}</span>${p.name}</a>`).join('') : '<a href="cotizar.html">Sin resultados · Cotiza algo a medida</a>';
+      sg.innerHTML = r.length ? r.map(p => `<a href="producto-${p.id}.html"><span class="th">${BP.art(p.shape, p.colors[0].hex, { print: false })}</span>${p.name}</a>`).join('') : '<a href="' + BP.wa('Hola Brutal Print, busco algo que no veo en la tienda.') + '" target="_blank" rel="noopener">Sin resultados · Escríbenos por WhatsApp</a>';
       sg.classList.add('on');
     });
     document.addEventListener('click', e => { if (!e.target.closest('.search')) sg.classList.remove('on'); });

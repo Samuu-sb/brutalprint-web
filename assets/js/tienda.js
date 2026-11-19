@@ -13,10 +13,10 @@
     $('#f-tech').innerHTML = box('tech', Object.entries(BP.techniques).map(([k, t]) => [k, t.name, BP.products.filter(p => p.techs.includes(k)).length]), state.techs);
   }
   function card(p) {
-    return `<a class="pcard" href="producto-${p.id}.html"><div class="img">${p.badge ? `<span class="tag">${p.badge}</span>` : ''}${BP.art(p.shape, p.colors[0].hex, { label: p.name })}</div>
+    return `<a class="pcard" href="producto-${p.id}.html"><div class="img">${BP.art(p.shape, p.colors[0].hex, { label: p.name })}</div>
 <div class="info"><span class="name">${p.name}</span><span class="meta">${p.techs.map(t => BP.techniques[t].name).join(' · ')}</span>
 <div class="swatches">${p.colors.slice(0, 5).map(c => `<i style="background:${c.hex}" title="${c.n}"></i>`).join('')}</div>
-<div class="price"><small>desde</small><b>${BP.money(p.price)}</b><small>· ${BP.money(BP.unitPrice(p, 100))} en 100+</small></div></div></a>`;
+<div class="price"><b>${BP.money(p.price)}</b><small>c/u</small></div></div></a>`;
   }
   function render() {
     let r = BP.products.filter(p =>

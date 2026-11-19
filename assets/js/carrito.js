@@ -1,21 +1,15 @@
 (function (BP) {
   const { $, $$, esc } = BP, root = $('#cartRoot'), M = BP.money;
-  function nudge(it) {
-    const p = BP.getProduct(it.id), q = BP.cart.qtyOf(it.id), t = BP.tierFor(q), nx = BP.tiers[BP.tiers.indexOf(t) + 1];
-    if (!nx) return '<div class="nudge">🔥 Ya tienes el mejor precio por volumen.</div>';
-    return `<div class="nudge">Agrega ${nx.min - q} más y baja a ${M(BP.unitPrice(p, nx.min))} c/u (ahorras ${Math.round((1 - nx.mult / t.mult) * 100)}% extra).</div>`;
-  }
   function render() {
     const c = BP.cart.get();
-    if (!c.length) { root.innerHTML = `<div class="empty"><h3>Tu carrito está vacío</h3><p style="margin:.5rem 0 1.2rem">Elige una prenda o cotiza algo a medida.</p><a class="btn" href="tienda.html">Ir a la tienda</a> <a class="btn alt" href="cotizar.html">Cotizar</a></div>`; return; }
-    const seen = new Set();
+    if (!c.length) { root.innerHTML = `<div class="empty"><h3>Tu carrito está vacío</h3><p style="margin:.5rem 0 1.2rem">Elige una prenda para empezar.</p><a class="btn" href="tienda.html">Ir a la tienda</a></div>`; return; }
     const lines = c.map(it => {
-      const p = BP.getProduct(it.id), u = BP.cart.unit(it), first = !seen.has(it.id); seen.add(it.id);
+      const p = BP.getProduct(it.id), u = BP.cart.unit(it);
       return `<div class="line"><div class="th">${BP.art(p.shape, (p.colors.find(x => x.n === it.color) || p.colors[0]).hex, { label: p.name })}</div>
 <div><div class="nm"><a href="producto-${p.id}.html">${esc(p.name)}</a></div>
 <div class="sub">${esc(it.color)}${it.size ? ' · ' + esc(it.size) : ''} · ${BP.techniques[it.tech].name}${it.note ? '<br>“' + esc(it.note) + '”' : ''}</div>
 <div class="qty" style="margin-top:.5rem"><button type="button" data-k="${esc(it.key)}" data-d="-1" aria-label="Menos">−</button><input type="number" min="1" value="${it.qty}" data-k="${esc(it.key)}" aria-label="Cantidad"><button type="button" data-k="${esc(it.key)}" data-d="1" aria-label="Más">+</button></div>
-<div><button class="rm" type="button" data-rm="${esc(it.key)}">Quitar</button></div>${first ? nudge(it) : ''}</div>
+<div><button class="rm" type="button" data-rm="${esc(it.key)}">Quitar</button></div></div>
 <div class="lt">${M(u * it.qty)}<div class="sub">${M(u)} c/u</div></div></div>`;
     }).join('');
     const sub = BP.cart.subtotal(), dep = Math.round(sub * BP.config.depositPct) / 100;
@@ -26,9 +20,9 @@
 <div class="sumrow t"><span>Total</span><span>${M(sub)}</span></div>
 <div class="sumrow" style="color:var(--grey)"><span>Abono (${BP.config.depositPct}%)</span><span>${M(dep)}</span></div>
 <div class="pbuy"><a class="btn" href="checkout.html">Finalizar pedido</a>
-<a class="btn wa" target="_blank" rel="noopener" href="${BP.wa('Hola Brutal Print, quiero cotizar este pedido:\n' + BP.cartText())}">Enviar pedido por WhatsApp</a>
+<a class="btn wa" target="_blank" rel="noopener" href="${BP.wa('Hola Brutal Print, quiero hacer este pedido:\n' + BP.cartText())}">Enviar pedido por WhatsApp</a>
 <a class="btn alt" href="tienda.html">Seguir comprando</a></div>
-<p class="note" style="margin-top:1rem">Precios referenciales. Confirmamos el total final al aprobar tu diseño.</p></aside></div>`;
+<p class="note" style="margin-top:1rem">Envío gratis en compras de más de ${M(BP.config.freeShippingOver)}. Precios referenciales; confirmamos el total final al aprobar tu diseño.</p></aside></div>`;
   }
   root.addEventListener('click', e => {
     const b = e.target.closest('button'); if (!b) return;

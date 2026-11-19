@@ -5,9 +5,8 @@
   const pay = {
     yappy: `<p>Paga con <b>Yappy</b> a <b>${esc(cfg.payments.yappy)}</b> y envíanos la captura por WhatsApp.</p>`,
     transfer: `<p>Transfiere a <b>${esc(cfg.payments.bank.name)}</b> · ${esc(cfg.payments.bank.type)} <b>${esc(cfg.payments.bank.number)}</b> · ${esc(cfg.payments.bank.holder)}. Envía el comprobante por WhatsApp.</p>`,
-    card: '<p>Te enviaremos un enlace de pago seguro por WhatsApp para pagar con tarjeta.</p>',
     cash: '<p>Pagas en efectivo al retirar en el taller. Para iniciar producción confirmaremos tu pedido por WhatsApp.</p>'
-  }[o.pay];
+  }[o.pay] || '';
   const msg = `Hola Brutal Print, acabo de hacer el pedido ${o.code}.\nNombre: ${o.customer.nm}\n${o.items.map(it => `• ${it.qty} x ${BP.getProduct(it.id).name} (${it.color}${it.size ? ', ' + it.size : ''}, ${BP.techniques[it.tech].name})`).join('\n')}\nTotal: ${M(o.total)} · Abono: ${M(o.due)}\nEnvío mi logo/diseño a continuación.`;
   root.innerHTML = `<div class="two"><div class="card"><span class="tag">Pedido ${esc(o.code)}</span><h2 style="margin:.8rem 0">¡Gracias, ${esc(o.customer.nm.split(' ')[0])}!</h2>
 <p>Registramos tu pedido. <b>El siguiente paso es enviarnos tu diseño por WhatsApp</b> para preparar la prueba de arte.</p>
