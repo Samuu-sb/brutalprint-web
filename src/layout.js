@@ -15,7 +15,7 @@ const ico = {
 
 const nav = [
   ['tienda.html', 'Tienda'], ['personalizar.html', 'Personalizar'],
-  ['precios.html', 'Precios'], ['nichos.html', 'Para tu proyecto'], ['dtf.html', 'DTF por metro'],
+  ['nichos.html', 'Para tu proyecto'],
   ['portafolio.html', 'Portafolio'], ['seguimiento.html', 'Mi pedido'], ['mayoristas.html', 'Mayoristas', 'hot']
 ];
 
@@ -76,7 +76,7 @@ function footer() {
     </div>
     <div><h4>Tienda</h4><ul>
       <li><a href="tienda.html">Todos los productos</a></li><li><a href="personalizar.html">Personalizador</a></li>
-      <li><a href="precios.html">Precios</a></li><li><a href="dtf.html">DTF por metro</a></li><li><a href="mayoristas.html">Mayoristas</a></li></ul></div>
+      <li><a href="mayoristas.html">Mayoristas</a></li></ul></div>
     <div><h4>Ayuda</h4><ul>
       <li><a href="seguimiento.html">Seguimiento de pedido</a></li><li><a href="envios.html">Envíos y entregas</a></li><li><a href="devoluciones.html">Cambios y garantía</a></li>
       <li><a href="faq.html">Preguntas frecuentes</a></li><li><a href="tecnicas.html">¿Qué técnica elegir?</a></li><li><a href="contacto.html">Contacto</a></li></ul></div>

@@ -222,22 +222,6 @@ pages.push({
 </div></div>`
 });
 
-/* ---------------- PRECIOS ---------------- */
-pages.push({
-  file: 'precios.html', title: 'Precios | Brutal Print Panamá', desc: 'Precios por pieza de camisetas, polos, hoodies, jerseys, gorras y tazas personalizados en Panamá.',
-  body: `${phead('Precios', 'Precio fijo por pieza, en dólares, con 1 diseño en 1 ubicación.')}
-<div class="page"><div class="wrap">
- <div class="tbl-wrap"><table><thead><tr><th>Producto</th><th>Precio c/u</th></tr></thead><tbody>
- ${BP.products.map(p => `<tr><td><a class="link" href="producto-${p.id}.html">${p.name}</a></td><td class="pr">${$(p.price)}</td></tr>`).join('')}
- </tbody></table></div>
- <div class="grid g3" style="margin-top:2.5rem">
-  <div class="card"><h3>Qué incluye</h3><ul style="padding-left:1.2rem;margin-top:.6rem;display:grid;gap:.4rem"><li>1 diseño, 1 ubicación, hasta tamaño carta</li><li>Personaliza tu estilo</li><li>Tallas surtidas en el mismo pedido</li></ul></div>
-  <div class="card"><h3>Extras</h3><ul style="padding-left:1.2rem;margin-top:.6rem;display:grid;gap:.4rem"><li>Ubicación extra: +$2.00 c/u</li><li>Vectorización de logo: ${$(12)}</li><li>Diseño desde cero: desde ${$(25)}</li></ul></div>
-  <div class="card"><h3>Pagos</h3><ul style="padding-left:1.2rem;margin-top:.6rem;display:grid;gap:.4rem"><li>Abono del ${cfg.depositPct}% para iniciar</li><li>Yappy o transferencia</li><li>Efectivo al retirar</li></ul></div>
- </div>
- <p class="note" style="margin-top:2rem">Precios referenciales; pedidos con muchos colores o tamaños especiales se confirman aparte por <a class="link" href="${BP.wa('Hola Brutal Print, tengo una consulta sobre precios.')}" target="_blank" rel="noopener">WhatsApp</a>.</p>
-</div></div>`
-});
 
 /* ---------------- NICHOS ---------------- */
 pages.push({
@@ -261,31 +245,6 @@ Object.entries(BP.nichos).forEach(([k, n]) => {
   });
 });
 
-/* ---------------- DTF POR METRO ---------------- */
-pages.push({
-  file: 'dtf.html', title: 'Transfers DTF por metro y hojas personalizadas | Brutal Print Panamá', desc: 'Pide hojas de transfer DTF listas para planchar. Arma tu hoja con tus diseños, calcula el largo y el costo.', scripts: ['dtf'],
-  body: `${phead('Transfers DTF para talleres y marcas', 'Imprimimos tus diseños en película DTF, listos para planchar en tu propia prensa. Arma tu hoja y calcula el costo.')}
-<div class="page"><div class="wrap two">
- <div>
-  <div class="card" style="margin-bottom:1.2rem"><h3 style="margin-bottom:1rem">Agregar diseño</h3>
-   <div class="row2"><div class="field"><label class="f" for="dW">Ancho (cm)</label><input id="dW" type="number" min="1" max="${56}" value="28"></div><div class="field"><label class="f" for="dH">Alto (cm)</label><input id="dH" type="number" min="1" value="30"></div></div>
-   <div class="row2"><div class="field"><label class="f" for="dQ">Cantidad</label><input id="dQ" type="number" min="1" value="10"></div><div class="field"><label class="f" for="dN">Nombre del diseño</label><input id="dN" type="text" placeholder="Ej: Logo pecho"></div></div>
-   <button class="btn" type="button" id="dAdd">Agregar a la hoja</button></div>
-  <div class="card"><h3 style="margin-bottom:.6rem">Tus diseños</h3><div id="dList"><p style="color:var(--grey)">Aún no has agregado diseños.</p></div></div>
- </div>
- <div>
-  <div class="card quote-sum" style="margin-bottom:1.2rem"><h3>Resumen</h3>
-   <div class="sumrow"><span>Ancho de rollo útil</span><b>56 cm</b></div>
-   <div class="sumrow"><span>Largo necesario</span><b id="dLen">0.00 m</b></div>
-   <div class="sumrow"><span>Precio por metro</span><b id="dPm"></b></div>
-   <div class="sumrow t"><span>Total estimado</span><span id="dTot">$0.00</span></div>
-   <p class="note" style="margin:1rem 0">Costo por metro de referencia; baja desde 5 m. El orden es automático: lo revisamos y ajustamos antes de imprimir.</p>
-   <a class="btn wa" id="dWa" href="#" target="_blank" rel="noopener">${ico.wa} Pedir esta hoja por WhatsApp</a></div>
-  <div class="sheet-wrap"><div class="sheet" id="dSheet" style="width:100%;height:240px"></div></div>
-  <small style="color:var(--grey)">Vista de la hoja (escala aproximada).</small>
- </div>
-</div></div>`
-});
 
 /* ---------------- PORTAFOLIO ---------------- */
 const demo = [['tee', '#111113', 'Camiseta serigrafía'], ['jersey', '#F4F1EA', 'Jersey sublimado'], ['hoodie', '#3A3A3F', 'Hoodie graduación'], ['mug', '#F4F1EA', 'Taza sublimada'], ['cap', '#111113', 'Gorra DTF'], ['polo', '#16264A', 'Polo uniforme'], ['tote', '#E7DFC9', 'Tote bag evento'], ['tumbler', '#FDA823', 'Termo sublimado']];
