@@ -1,7 +1,0 @@
-{
-  "name": "brutalprint-web",
-  "private": true,
-  "description": "Sitio estático de Brutal Print Panamá (HTML generado con node src/build.js) + función de vistas previas",
-  "scripts": { "build": "node src/build.js" },
-  "dependencies": { "@netlify/blobs": "^8.1.0" }
-}

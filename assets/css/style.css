@@ -663,3 +663,17 @@ dialog.buydlg[open]{animation:fadein .2s ease-out}
 .stage.loading::after{content:"Cargando modelo 3D…";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,8,8,.55);color:var(--text);font-family:var(--font-m);letter-spacing:.1em;text-transform:uppercase;font-size:.85rem;border-radius:3px;z-index:3;padding-top:3.2rem;background-image:radial-gradient(circle at 50% 48%,transparent 0 17px,rgba(255,165,31,.0) 18px)}
 .stage.loading::before{content:"";position:absolute;left:50%;top:46%;width:34px;height:34px;margin:-17px 0 0 -17px;border:3px solid rgba(242,240,234,.25);border-top-color:var(--amber);border-radius:50%;animation:spin .8s linear infinite;z-index:4}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* Tutorial: cómo hacer el pedido */
+.howto{list-style:none;display:grid;gap:.9rem;margin-top:.4rem;counter-reset:h}
+.hstep{display:grid;grid-template-columns:38px 1fr;gap:.9rem;padding:.9rem;border:1px solid var(--line);border-radius:3px;background:#121212;position:relative;transition:border-color .2s,background .2s}
+.hstep:not(:last-child)::after{content:"";position:absolute;left:1.85rem;bottom:-.9rem;width:2px;height:.9rem;background:var(--line)}
+.hn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:2px solid var(--amber);border-radius:50%;font-family:var(--font-d);font-size:1.25rem;color:var(--amber);flex:none;transition:all .2s}
+.hb{display:flex;flex-direction:column;gap:.3rem;align-items:flex-start;min-width:0}
+.hb b{font-size:1rem;color:var(--text)}
+.hb>span{font-size:.88rem;color:var(--metal-l);line-height:1.5}
+.hb .btn{margin-top:.5rem;width:100%}
+.hb .clip{display:inline-block;width:18px;height:18px;vertical-align:-3px;color:var(--amber)}
+.hstep.done{border-color:var(--amber);background:var(--amber-l)}
+.hstep.done .hn{background:var(--amber);color:#080808;font-size:0}
+.hstep.done .hn::before{content:"✓";font-family:var(--font-b);font-weight:800;font-size:1.2rem}

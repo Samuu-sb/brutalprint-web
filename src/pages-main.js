@@ -200,7 +200,7 @@ pages.push({
   <div class="card" style="margin-bottom:1.2rem"><h3 style="margin-bottom:.8rem">1. Producto</h3><div class="chips" id="pzProd"></div>
    <h3 style="margin:1.2rem 0 .6rem">Color</h3><div class="sw" id="pzColors"></div></div>
   <div class="card" style="margin-bottom:1.2rem"><h3 style="margin-bottom:.8rem">2. Tu diseño</h3>
-   <label class="drop"><input type="file" id="pzFile" accept="image/png,image/jpeg,image/webp,image/svg+xml"><b>Toca para subir tu diseño</b><br><small>PNG con fondo transparente funciona mejor. Tu diseño queda en tu dispositivo; solo se sube la vista previa si pides por WhatsApp.</small></label>
+   <label class="drop"><input type="file" id="pzFile" accept="image/png,image/jpeg,image/webp,image/svg+xml"><b>Toca para subir tu diseño</b><br><small>PNG con fondo transparente funciona mejor. No se sube a ningún servidor: queda en tu dispositivo.</small></label>
    <div id="pzCtl" hidden style="margin-top:1rem">
      <label class="f" for="pzScale">Tamaño</label><input type="range" id="pzScale" min="10" max="200" value="80">
      <label class="f" for="pzRot">Rotación</label><input type="range" id="pzRot" min="-45" max="45" value="0">
@@ -208,10 +208,14 @@ pages.push({
      <p style="font-size:.85rem;color:var(--grey);margin-top:.6rem"><span id="pzHint">Arrastra el diseño sobre la prenda para moverlo.</span></p></div></div>
   <div class="card"><h3 style="margin-bottom:.8rem">3. ¿Te gusta?</h3>
    <div class="field"><label class="f" for="pzQty">Cantidad</label><input type="number" id="pzQty" value="12" min="1"></div>
-   <div class="pbuy"><button class="btn" id="pzDl" type="button">Descargar vista previa</button>
-   <button class="btn wa" id="pzWa" type="button">${ico.wa} Pedir con esta vista previa</button>
-   <a class="btn alt" id="pzProdLink" href="tienda.html">Ver producto y precios</a></div>
-   <p class="note" style="margin-top:1rem">Al tocar «Pedir con esta vista previa» se guarda una copia de la imagen para generar un enlace que va en tu mensaje, y se abre el chat de Brutal Print directamente en WhatsApp. Tu archivo de diseño original lo envías después, en el chat.</p></div>
+   <ol class="howto" aria-label="Cómo hacer tu pedido">
+    <li class="hstep" id="hs1"><span class="hn">1</span><div class="hb"><b>Descarga tu vista previa</b><span>Se guarda la imagen en tu celular o computadora.</span>
+      <button class="btn sm" id="pzDl" type="button">Descargar vista previa</button></div></li>
+    <li class="hstep"><span class="hn">2</span><div class="hb"><b>Pide por WhatsApp</b><span>Se abre el chat de Brutal Print con tu pedido ya escrito.</span>
+      <button class="btn sm wa" id="pzWa" type="button">${ico.wa} Hacer pedido por WhatsApp</button></div></li>
+    <li class="hstep"><span class="hn">3</span><div class="hb"><b>Adjunta la imagen en el chat</b><span>En WhatsApp toca el clip <svg class="clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="clip"><path d="M21.4 11.1l-9.2 9.2a6 6 0 01-8.5-8.5l9.2-9.2a4 4 0 015.7 5.7l-9.2 9.2a2 2 0 01-2.8-2.8l8.5-8.5"/></svg>, elige <b>Galería</b> y selecciona la vista previa que descargaste. Si tienes tu diseño original, envíalo también. Después presiona enviar.</span></div></li>
+   </ol>
+   <a class="btn alt" id="pzProdLink" href="tienda.html" style="margin-top:1rem;width:100%">Ver producto y precios</a>
  </div>
 </div></div>`
 });
