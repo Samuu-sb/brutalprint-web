@@ -77,7 +77,7 @@ info('terminos.html', 'Términos y condiciones', 'Términos y condiciones de com
 
 info('privacidad.html', 'Política de privacidad', 'Cómo Brutal Print Panamá trata tus datos personales.', 'Política de privacidad', '', `
 <h2>Datos que usamos</h2><p>Nombre, teléfono y datos de entrega que nos compartes al hacer un pedido, solo para gestionarlo y contactarte.</p>
-<h2>Almacenamiento en este sitio</h2><p>El carrito y tus pedidos recientes se guardan en tu propio navegador (localStorage). Los logos que subes al personalizador no se envían a ningún servidor.</p>
+<h2>Almacenamiento en este sitio</h2><p>El carrito y tus pedidos recientes se guardan en tu propio navegador (localStorage). Los logos que subes al personalizador se procesan en tu dispositivo y no se envían a ningún servidor. La única excepción es cuando tocas «Pedir con esta vista previa»: se guarda una copia de la imagen de la vista previa (tu prenda con el diseño) en nuestro alojamiento para generar un enlace privado que se incluye en tu mensaje de WhatsApp.</p>
 <h2>Analítica</h2><p>Con tu consentimiento podemos usar herramientas como Meta Pixel y Google Analytics para medir visitas y mejorar la publicidad.</p>
 <h2>Tus derechos</h2><p>Puedes pedirnos acceso, corrección o eliminación de tus datos escribiendo a ${cfg.email}.</p>${draft}`);
 

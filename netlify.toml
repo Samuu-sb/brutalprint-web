@@ -2,6 +2,10 @@
 [build]
   publish = "."
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Imágenes y librerías cambian poco: caché larga.
 [[headers]]
   for = "/assets/img/*"
