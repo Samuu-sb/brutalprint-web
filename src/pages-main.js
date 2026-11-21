@@ -5,6 +5,7 @@ const $ = BP.money;
 const phead = (title, sub, crumb) => `<div class="phead"><div class="wrap"><div class="crumbs"><a href="index.html">Inicio</a> / ${crumb || title}</div><h1>${title}</h1>${sub ? `<p>${sub}</p>` : ''}</div></div>`;
 
 const pcard = BP.pcard;
+const SHOW_REVIEWS = false; // pon true para volver a mostrar la sección de reseñas en el inicio
 
 const pages = [];
 
@@ -73,10 +74,10 @@ pages.push({
   </div>
 </div></section>
 
-<section><div class="wrap">
+${SHOW_REVIEWS ? `<section><div class="wrap">
   <div class="sec-head"><div><span class="eyebrow">Trabajos y clientes</span><h2>Lo que hemos <span class="hl">estampado</span></h2></div><a class="link" href="portafolio.html">Ver portafolio →</a></div>
   <div class="grid g3">${BP.reviews.map(r => `<div class="card rev">${r.placeholder ? '<span class="ph-note">Ejemplo · reemplazar</span>' : ''}<span class="stars" aria-label="${r.stars} estrellas">${'★'.repeat(r.stars)}</span><p>“${r.text}”</p><b>${r.name}</b><small>${r.role}</small></div>`).join('')}</div>
-</div></section>
+</div></section>` : ''}
 
 <section style="padding-top:0"><div class="wrap" style="max-width:860px">
   <div class="sec-head"><h2>Preguntas frecuentes</h2></div>
