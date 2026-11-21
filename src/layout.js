@@ -5,6 +5,9 @@ require('../assets/js/data.js');
 require('../assets/js/art.js');
 const BP = global.BP;
 const cfg = BP.config;
+// Versión por contenido (?v=hash): al cambiar un archivo cambia su URL y nadie ve una copia vieja en caché
+const fs = require('fs'), path = require('path'), crypto = require('crypto');
+const ver = rel => '?v=' + crypto.createHash('md5').update(fs.readFileSync(path.join(__dirname, '..', rel))).digest('hex').slice(0, 8);
 
 const ico = {
   search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>',
@@ -36,7 +39,7 @@ function head(p) {
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css${ver('assets/css/style.css')}">
 ${p.modules ? '<script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js","three/addons/":"./assets/vendor/three/"}}</script>' : ''}
 ${(p.preload || []).map(u => `<link rel="${/\.js$/.test(u) ? 'modulepreload' : 'preload'}" href="${u}"${/\.js$/.test(u) ? '' : ' as="fetch" crossorigin'}>`).join('')}
 ${p.jsonld ? '<script type="application/ld+json">' + JSON.stringify(p.jsonld) + '</script>' : ''}
@@ -100,8 +103,8 @@ function footer() {
 function page(p) {
   const scripts = ['config', 'data', 'art', 'app'].concat(p.scripts || []);
   return head(p) + '\n' + header(p.current || p.file) + '\n' + p.body + '\n' + footer() + '\n' +
-    scripts.map(s => `<script src="assets/js/${s}.js"></script>`).join('\n') + '\n' +
-    (p.modules ? p.modules.map(s => `<script type="module" src="assets/js/${s}.js"></script>`).join('\n') + '\n' : '') + '</body>\n</html>\n';
+    scripts.map(s => `<script src="assets/js/${s}.js${ver('assets/js/' + s + '.js')}"></script>`).join('\n') + '\n' +
+    (p.modules ? p.modules.map(s => `<script type="module" src="assets/js/${s}.js${ver('assets/js/' + s + '.js')}"></script>`).join('\n') + '\n' : '') + '</body>\n</html>\n';
 }
 
 module.exports = { page, ico, BP };

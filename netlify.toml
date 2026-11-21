@@ -2,7 +2,29 @@
 [build]
   publish = "."
 
+# Imágenes y librerías cambian poco: caché larga.
 [[headers]]
-  for = "/assets/*"
+  for = "/assets/img/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/vendor/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Código, estilos y modelos 3D: el navegador siempre pregunta si hubo cambios (304 si no los hay).
+[[headers]]
+  for = "/assets/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/models/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
