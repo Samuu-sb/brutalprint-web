@@ -211,7 +211,7 @@ pages.push({
    <div class="pbuy"><button class="btn" id="pzDl" type="button">Descargar vista previa</button>
    <button class="btn wa" id="pzWa" type="button">${ico.wa} Pedir con esta vista previa</button>
    <a class="btn alt" id="pzProdLink" href="tienda.html">Ver producto y precios</a></div>
-   <p class="note" style="margin-top:1rem">Al abrir WhatsApp, adjunta tu archivo de diseño original y la imagen de la vista previa que descargaste.</p></div>
+   <p class="note" style="margin-top:1rem">En el celular, al tocar el botón se abre el menú de compartir: elige WhatsApp y el contacto de Brutal Print (${cfg.whatsappDisplay}) y la vista previa va adjunta. Después envía también tu archivo de diseño original. En computadora se descarga la imagen y debes adjuntarla en WhatsApp.</p></div>
  </div>
 </div></div>`
 });

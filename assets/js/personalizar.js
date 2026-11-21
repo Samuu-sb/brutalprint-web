@@ -88,10 +88,36 @@
   cv.addEventListener('pointerup', () => drag = null);
 
   $('#pzDl').onclick = () => { if (!st.img) { BP.toast('Sube tu diseño primero'); return; } const a = document.createElement('a'); a.download = 'vista-previa-brutalprint.png'; a.href = use3d ? BP.viewer3d.snapshot() : cv.toDataURL('image/png'); a.click(); BP.toast('Vista previa descargada ✔'); };
+  // dataURL -> File de forma síncrona (así no se pierde el gesto del usuario, que iOS exige para compartir)
+  function dataUrlToFile(url, name) {
+    const [head, b64] = url.split(','), mime = (head.match(/:(.*?);/) || [])[1] || 'image/png', bin = atob(b64), u8 = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    return new File([u8], name, { type: mime });
+  }
   $('#pzWa').onclick = () => {
     const q = +$('#pzQty').value || 1;
-    window.open(BP.wa(`Hola Brutal Print, armé una vista previa en el personalizador:\n• Producto: ${st.p.name} (${st.p.colors[st.ci].n})\n• Cantidad: ${q}\nTe adjunto mi diseño y la imagen de la vista previa.`), '_blank', 'noopener');
+    const text = `Hola Brutal Print, armé una vista previa en el personalizador:
+• Producto: ${st.p.name} (${st.p.colors[st.ci].n})
+• Cantidad: ${q}
+Te adjunto mi diseño y la imagen de la vista previa.`;
     BP.track('lead', { source: 'personalizador' });
+    const open = () => window.open(BP.wa(text), '_blank', 'noopener');
+    if (!st.img) { open(); return; }
+    let file = null;
+    try { file = dataUrlToFile(use3d ? BP.viewer3d.snapshot() : cv.toDataURL('image/png'), 'vista-previa-brutalprint.png'); } catch (e) { /* sin imagen */ }
+    // Celulares: la hoja de compartir adjunta la imagen y el texto a WhatsApp (los enlaces wa.me solo llevan texto)
+    if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file], text }).then(() => BP.toast('Elige a Brutal Print en WhatsApp ✔')).catch(err => {
+        if (err && err.name === 'AbortError') return; // el cliente canceló
+        open();
+      });
+      BP.toast('Elige WhatsApp y el contacto ' + BP.config.whatsappDisplay);
+      return;
+    }
+    // PC / navegadores sin soporte: descarga la imagen y abre WhatsApp con el texto
+    if (file) { const a = document.createElement('a'); a.download = file.name; a.href = URL.createObjectURL(file); a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+    BP.toast('Vista previa descargada: adjúntala en WhatsApp');
+    open();
   };
   center(); ui(); draw(); sync3d();
 })(window.BP);
