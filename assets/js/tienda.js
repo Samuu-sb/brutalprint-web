@@ -12,12 +12,7 @@
     $('#f-cat').innerHTML = box('cat', BP.categories.map(c => [c.id, c.name, BP.products.filter(p => p.cat === c.id).length]), state.cats);
     $('#f-tech').innerHTML = box('tech', Object.entries(BP.techniques).map(([k, t]) => [k, t.name, BP.products.filter(p => p.techs.includes(k)).length]), state.techs);
   }
-  function card(p) {
-    return `<a class="pcard" href="producto-${p.id}.html"><div class="img">${BP.art(p.shape, p.colors[0].hex, { label: p.name })}</div>
-<div class="info"><span class="name">${p.name}</span><span class="meta">${p.techs.map(t => BP.techniques[t].name).join(' · ')}</span>
-<div class="swatches">${p.colors.slice(0, 5).map(c => `<i style="background:${c.hex}" title="${c.n}"></i>`).join('')}</div>
-<div class="price"><b>${BP.money(p.price)}</b><small>c/u</small></div></div></a>`;
-  }
+  const card = BP.pcard;
   function render() {
     let r = BP.products.filter(p =>
       (!state.cats.size || state.cats.has(p.cat)) &&

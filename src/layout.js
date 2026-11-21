@@ -28,14 +28,14 @@ function head(p) {
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${p.title}</title>
 <meta name="description" content="${p.desc}">
-<meta name="theme-color" content="#0B0B0C">
+<meta name="theme-color" content="#080808">
 <link rel="canonical" href="${url}">
 <meta property="og:type" content="website"><meta property="og:locale" content="es_PA">
 <meta property="og:title" content="${p.title}"><meta property="og:description" content="${p.desc}">
 <meta property="og:image" content="${cfg.siteUrl}/assets/img/logo-dark.webp"><meta property="og:url" content="${url}">
 <link rel="icon" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 ${p.jsonld ? '<script type="application/ld+json">' + JSON.stringify(p.jsonld) + '</script>' : ''}
 </head>`;

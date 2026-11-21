@@ -4,13 +4,7 @@ const cfg = BP.config;
 const $ = BP.money;
 const phead = (title, sub, crumb) => `<div class="phead"><div class="wrap"><div class="crumbs"><a href="index.html">Inicio</a> / ${crumb || title}</div><h1>${title}</h1>${sub ? `<p>${sub}</p>` : ''}</div></div>`;
 
-function pcard(p) {
-  const techs = p.techs.map(t => BP.techniques[t].name).join(' · ');
-  return `<a class="pcard" href="producto-${p.id}.html"><div class="img">${BP.art(p.shape, p.colors[0].hex, { label: p.name })}</div>
-<div class="info"><span class="name">${p.name}</span><span class="meta">${techs}</span>
-<div class="swatches">${p.colors.slice(0, 5).map(c => `<i style="background:${c.hex}" title="${c.n}"></i>`).join('')}</div>
-<div class="price"><b>${$(p.price)}</b><small>c/u</small></div></div></a>`;
-}
+const pcard = BP.pcard;
 
 const pages = [];
 
@@ -21,26 +15,25 @@ pages.push({
   desc: 'Camisetas, uniformes, jerseys, tazas y más personalizados en Panamá. Serigrafía, DTF, sublimación e impresión 3D: personaliza tu estilo y paga con Yappy o transferencia.',
   jsonld: { '@context': 'https://schema.org', '@type': 'LocalBusiness', name: 'Brutal Print Panamá', description: 'Serigrafía, DTF y sublimación en Panamá', url: cfg.siteUrl, telephone: '+' + cfg.whatsapp, address: { '@type': 'PostalAddress', addressCountry: 'PA', addressLocality: 'Colón' }, sameAs: ['https://instagram.com/' + cfg.instagram], priceRange: '$$' },
   body: `
-<section class="hero dark"><div class="wrap">
+<section class="hero"><div class="wrap">
   <div>
-    <span class="eyebrow">Serigrafía · DTF · Sublimación · Impresión 3D</span>
-    <h1>Estampamos <span class="hl">lo que desees</span></h1>
-    <p class="lead">Uniformes, jerseys, merch y regalos personalizados en Panamá. Ves cómo queda antes de producir.</p>
+    <span class="eyebrow">Rock · Metal · Punk · Grunge · Geek</span>
+    <h1>Tu banda.<br>Tu ruido.<br><span class="hl">Tu merch.</span></h1>
+    <p class="lead">Camisetas, hoodies y accesorios de cultura underground, estampados en Panamá. Elige del catálogo o manda tu propio diseño y lo hacemos realidad.</p>
     <div class="cta-row">
-      <a class="btn wa" href="${BP.wa('Hola Brutal Print, quiero hacer un pedido.')}" target="_blank" rel="noopener" data-track="cta_whatsapp_hero">${ico.wa} Escribir por WhatsApp</a>
-      <a class="btn alt" href="personalizar.html">Probar mi diseño en una prenda</a>
+      <a class="btn" href="tienda.html" data-track="cta_catalogo_hero">Explorar catálogo</a>
+      <a class="btn alt" href="personalizar.html" data-track="cta_personalizar_hero">Pedir personalizado</a>
     </div>
-    <div class="hero-trust"><span><i></i>Personaliza tu estilo</span><span><i></i>Desde 1 pieza en DTF</span><span><i></i>Abono del ${cfg.depositPct}%</span></div>
+    <div class="hero-trust"><span><i></i>Desde 1 pieza en DTF</span><span><i></i>Prueba de arte antes de producir</span><span><i></i>Abono del ${cfg.depositPct}%</span></div>
   </div>
-  <div class="hero-art" aria-hidden="true">
-    <div class="a a1">${BP.art('tee', '#111113')}</div>
-    <div class="a a2">${BP.art('cap', '#F4F1EA')}</div>
-    <div class="a a3">${BP.art('mug', '#F4F1EA')}</div>
-    <div class="a a4">${BP.art('hoodie', '#3A3A3F')}</div>
-    <div class="stamp">¡Hecho en Panamá!</div>
+  <div class="hero-photos" aria-hidden="true">
+    <figure class="p1"><img src="assets/img/portafolio/a1.webp" alt="" width="800" height="1000"></figure>
+    <figure class="p2"><img src="assets/img/portafolio/igg3.webp" alt="" width="800" height="1000"></figure>
+    <figure class="p3"><img src="assets/img/portafolio/a12.webp" alt="" width="800" height="1000"></figure>
+    <div class="stamp">Hecho en Panamá</div>
   </div>
 </div></section>
-<div class="strip" aria-hidden="true"><div class="track">${Array(12).fill('<span>Serigrafía</span><span>DTF</span><span>Sublimación</span><span>Impresión 3D</span><span>Uniformes</span><span>Merch</span>').join('')}</div></div>
+<div class="strip" aria-hidden="true"><div class="track">${Array(12).fill('<span>Rock</span><span>Metal</span><span>Punk</span><span>Grunge</span><span>Geek</span><span>Serigrafía</span><span>DTF</span>').join('')}</div></div>
 
 <section><div class="wrap">
   <div class="sec-head"><div><span class="eyebrow">Elige tu método</span><h2>Cuatro técnicas, <span class="hl">un taller</span></h2></div><a class="link" href="tecnicas.html">¿Cuál me conviene? →</a></div>
@@ -50,12 +43,12 @@ pages.push({
 </div></section>
 
 <section style="padding-top:0"><div class="wrap">
-  <div class="sec-head"><div><span class="eyebrow">Lo más pedido</span><h2>Empieza por aquí</h2></div><a class="btn sm alt" href="tienda.html">Ver toda la tienda</a></div>
+  <div class="sec-head"><div><span class="eyebrow">Catálogo</span><h2>Lo más <span class="hl">pedido</span></h2></div><a class="btn sm alt" href="tienda.html">Ver toda la tienda</a></div>
   <div class="grid g4 prod">${featured.map(pcard).join('')}</div>
 </div></section>
 
 <section class="dark"><div class="wrap">
-  <div class="sec-head"><div><span class="eyebrow">Para tu proyecto</span><h2>Hecho para <span class="hl" style="color:var(--black)">tu caso</span></h2></div><a class="link" href="nichos.html">Ver todos →</a></div>
+  <div class="sec-head"><div><span class="eyebrow">Para tu proyecto</span><h2>Hecho para <span class="hl">tu caso</span></h2></div><a class="link" href="nichos.html">Ver todos →</a></div>
   <div class="grid g3">${Object.entries(BP.nichos).map(([k, n]) => `<a class="nicho" href="nicho-${k}.html"><span class="ic">${n.icon}</span><div><h3>${n.name}</h3><p>${n.sub}</p></div></a>`).join('')}</div>
 </div></section>
 
@@ -247,13 +240,31 @@ Object.entries(BP.nichos).forEach(([k, n]) => {
 
 
 /* ---------------- PORTAFOLIO ---------------- */
-const demo = [['tee', '#111113', 'Camiseta serigrafía'], ['jersey', '#F4F1EA', 'Jersey sublimado'], ['hoodie', '#3A3A3F', 'Hoodie graduación'], ['mug', '#F4F1EA', 'Taza sublimada'], ['cap', '#111113', 'Gorra DTF'], ['polo', '#16264A', 'Polo uniforme'], ['tote', '#E7DFC9', 'Tote bag evento'], ['tumbler', '#FDA823', 'Termo sublimado']];
+const demo = [
+  ['aa2', 'Camiseta "Hazardous Mutation"', 'DTF', 'camiseta-clasica'],
+  ['aa3', 'Camiseta "Art of Partying"', 'DTF', 'camiseta-clasica'],
+  ['aa4', 'Camiseta arte en blanco y negro', 'Serigrafía', 'camiseta-clasica'],
+  ['aa5', 'Camiseta "The New Order"', 'DTF', 'camiseta-clasica'],
+  ['aa6', 'Camiseta "Practice What You Preach"', 'DTF', 'camiseta-clasica'],
+  ['aa7', 'Camiseta "Para Bellum"', 'Serigrafía', 'camiseta-clasica'],
+  ['a1', 'Camiseta banda clásica, foto grupal', 'DTF', 'camiseta-clasica'],
+  ['a12', 'Camiseta mascota de terror', 'DTF', 'camiseta-clasica'],
+  ['a123', 'Camiseta "Cyber Army 2020"', 'DTF', 'camiseta-clasica'],
+  ['igg2', 'Camiseta calavera vintage', 'Serigrafía', 'camiseta-clasica'],
+  ['igg3', 'Camiseta "The End"', 'DTF', 'camiseta-clasica'],
+  ['igg4', 'Camiseta "Piranha"', 'DTF', 'camiseta-clasica'],
+  ['tazapokemon', 'Pokébola impresa en 3D', 'Impresión 3D', 'pokebola-3d']
+];
 pages.push({
-  file: 'portafolio.html', title: 'Portafolio y reseñas | Brutal Print Panamá', desc: 'Trabajos realizados por Brutal Print Panamá: uniformes, jerseys, graduaciones, merch y regalos personalizados.',
+  file: 'portafolio.html', title: 'Portafolio y reseñas | Brutal Print Panamá', desc: 'Trabajos realizados por Brutal Print Panamá: uniformes, jerseys, graduaciones, merch y regalos personalizados.', scripts: ['portafolio'],
   body: `${phead('Portafolio', 'Una muestra de lo que hemos producido.')}
 <div class="page"><div class="wrap">
- <p class="note warn" style="margin-bottom:2rem"><b>Contenido provisional:</b> las imágenes de esta página son ilustraciones de ejemplo. Reemplazar por fotos reales de trabajos antes de publicar.</p>
- <div class="port">${demo.map(d => `<figure><span class="ex">Ejemplo</span>${BP.art(d[0], d[1])}<figcaption><span>${d[2]}</span></figcaption></figure>`).join('')}</div>
+ <div class="port">${demo.map(d => { const pr = BP.getProduct(d[3]), sub = d[3] === 'camiseta-clasica' ? d[2] + ' · Algodón 100%' : d[2]; return `<figure class="ph" data-pid="${d[3]}" data-img="${d[0]}" data-title="${d[1].replace(/"/g, '&quot;')}" data-tech="${d[2]}">
+  <button type="button" class="pimg" data-open aria-label="Comprar: ${d[1].replace(/"/g, '&quot;')}"><img src="assets/img/portafolio/${d[0]}.webp" alt="${d[1].replace(/"/g, '&quot;')} — ${sub}" loading="lazy" width="800" height="1000"><span class="quick">Comprar</span></button>
+  <figcaption><span>${d[1]}</span><span>${sub}</span>
+    <div class="buy"><div class="price"><b>${$(pr.price)}</b><small>c/u</small></div>
+      <div class="acts"><button type="button" class="btn sm alt" data-add>Agregar</button><button type="button" class="btn sm" data-buy>Comprar</button></div></div>
+  </figcaption></figure>`; }).join('')}</div>
  <div class="cta-row" style="margin-top:2.5rem"><a class="btn" href="https://instagram.com/${cfg.instagram}" target="_blank" rel="noopener">Ver más en Instagram</a></div>
 </div></div>`
 });

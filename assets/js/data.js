@@ -26,12 +26,13 @@
     { id: 'deportivo', name: 'Deportivo sublimado' },
     { id: 'gorras', name: 'Gorras' },
     { id: 'tazas', name: 'Tazas y termos' },
-    { id: 'bolsas', name: 'Bolsas' }
+    { id: 'bolsas', name: 'Bolsas' },
+    { id: 'impresion3d', name: 'Impresión 3D' }
   ];
 
   BP.products = [
-    { id: 'camiseta-clasica', model: 'assets/models/tshirt.glb', name: 'Camiseta clásica 100% algodón', cat: 'camisetas', techs: ['dtf', 'serigrafia'], price: 9.5, colors: dark, sizes: sizesAdult, shape: 'tee', badge: 'Más pedida', desc: 'Corte regular, Heavy Cotton de 180 g. La base de todo pedido: uniformes, eventos, emprendimientos.', bullets: ['Incluye 1 diseño en 1 ubicación (hasta tamaño carta)', 'Tallas XS a 5XL y tallas de niño (2 a 22)', 'Ubicación extra: +$2.00 por pieza'] },
-    { id: 'camiseta-oversize', name: 'Camiseta oversize premium', cat: 'camisetas', techs: ['dtf', 'serigrafia'], price: 13.5, colors: dark.slice(0, 4), sizes: sizesAdult, shape: 'tee', badge: 'Streetwear', desc: 'Caída ancha, algodón pesado de 220 g. Para marcas de ropa y colecciones cápsula.', bullets: ['Algodón 220 g', 'Ideal para diseños grandes en espalda', 'Etiqueta propia disponible (consultar)'] },
+    { id: 'camiseta-clasica', photo: 'assets/img/portafolio/aa2.webp', model: 'assets/models/tshirt.glb', name: 'Camiseta clásica 100% algodón', cat: 'camisetas', techs: ['dtf', 'serigrafia'], price: 9.5, colors: dark, sizes: sizesAdult, shape: 'tee', badge: 'Más vendido', desc: 'Corte regular, Heavy Cotton de 180 g. La base de todo pedido: uniformes, eventos, emprendimientos.', bullets: ['Incluye 1 diseño en 1 ubicación (hasta tamaño carta)', 'Tallas XS a 5XL y tallas de niño (2 a 22)', 'Ubicación extra: +$2.00 por pieza'] },
+    { id: 'camiseta-oversize', photo: 'assets/img/portafolio/igg4.webp', name: 'Camiseta oversize premium', cat: 'camisetas', techs: ['dtf', 'serigrafia'], price: 13.5, colors: dark.slice(0, 4), sizes: sizesAdult, shape: 'tee', badge: 'Edición limitada', desc: 'Caída ancha, algodón pesado de 220 g. Para marcas de ropa y colecciones cápsula.', bullets: ['Algodón 220 g', 'Ideal para diseños grandes en espalda', 'Etiqueta propia disponible (consultar)'] },
     { id: 'camiseta-dryfit', name: 'Camiseta dry-fit sublimada', cat: 'deportivo', techs: ['sublimacion'], price: 14.5, colors: light, sizes: sizesAdult, shape: 'jersey', badge: 'Sublimación', desc: 'Poliéster respirable con sublimación de alta definición. Colores que no se desgastan ni se agrietan.', bullets: ['Diseño sublimado a todo color', 'Número y nombre incluidos', 'Pedido mínimo recomendado: 10'] },
     { id: 'jersey-equipo', name: 'Jersey de equipo completo', cat: 'deportivo', techs: ['sublimacion'], price: 22, colors: light, sizes: sizesAdult, shape: 'jersey', badge: 'Equipos', desc: 'Jersey con diseño 100% personalizado: escudo, patrocinadores, nombre y número. Entregamos prueba de diseño antes de producir.', bullets: ['Personaliza tu estilo: diseño por equipo', 'Mínimo 10 jerseys', 'Short y media disponibles (consultar)'] },
     { id: 'polo-uniforme', name: 'Polo uniforme piqué', cat: 'hoodies', techs: ['dtf', 'serigrafia'], price: 15.5, colors: dark.slice(0, 5), sizes: sizesAdult, shape: 'polo', badge: 'Empresas', desc: 'Polo de piqué con logo bordado o estampado en pecho. El uniforme corporativo estándar.', bullets: ['Logo en pecho incluido', 'Bordado disponible (consultar)', 'Reposición sencilla: guardamos tu arte'] },
@@ -40,8 +41,19 @@
     { id: 'gorra-trucker', model: 'assets/models/cap.glb', name: 'Gorra con logo', cat: 'gorras', techs: ['dtf', 'sublimacion'], price: 10.5, colors: dark.slice(0, 4), sizes: ['Única'], shape: 'cap', short: 'Gorra', desc: 'Gorra ajustable con panel frontal para tu logo. Perfecta para equipos de trabajo y eventos.', bullets: ['Cierre ajustable', 'Logo frontal incluido', 'Mínimo recomendado: 6'] },
     { id: 'taza-ceramica', model: 'assets/models/taza.glb', name: 'Taza de cerámica 11 oz', cat: 'tazas', techs: ['sublimacion'], price: 7.5, colors: [C('Blanco', '#F4F1EA'), C('Negro', '#111113')], sizes: ['11 oz'], shape: 'mug', short: 'Taza', badge: 'Regalo', desc: 'Sublimación de alta definición, apta para microondas y lavavajillas. Regalo corporativo o personal.', bullets: ['Impresión de lado a lado', 'Caja de regalo opcional', 'Desde 1 unidad'] },
     { id: 'termo-acero', model: 'assets/models/termo.glb', name: 'Termo de acero inoxidable', cat: 'tazas', techs: ['sublimacion'], price: 18, colors: [C('Blanco', '#F4F1EA'), C('Negro', '#111113'), C('Ámbar', '#FDA823')], sizes: ['20 oz'], shape: 'tumbler', short: 'Termo', desc: 'Mantiene frío o caliente por horas. Impresión con acabado brillante y duradero.', bullets: ['Acero doble pared', 'Grabado/sublimado a color', 'Desde 1 unidad'] },
-    { id: 'tote-bag', model: 'assets/models/toteBag.glb', name: 'Tote bag de algodón', cat: 'bolsas', techs: ['dtf', 'serigrafia'], price: 6.5, colors: [C('Natural', '#E7DFC9'), C('Negro', '#111113')], sizes: ['Única'], shape: 'tote', desc: 'Bolsa resistente para eventos, ferias y merch. Económica y con mucha visibilidad.', bullets: ['Algodón 8 oz', 'Perfecta para eventos', 'Descuento fuerte desde 50 unidades'] }
+    { id: 'tote-bag', model: 'assets/models/toteBag.glb', name: 'Tote bag de algodón', cat: 'bolsas', techs: ['dtf', 'serigrafia'], price: 6.5, colors: [C('Natural', '#E7DFC9'), C('Negro', '#111113')], sizes: ['Única'], shape: 'tote', desc: 'Bolsa resistente para eventos, ferias y merch. Económica y con mucha visibilidad.', bullets: ['Algodón 8 oz', 'Perfecta para eventos', 'Descuento fuerte desde 50 unidades'] },
+    { id: 'pokebola-3d', photo: 'assets/img/portafolio/tazapokemon.webp', name: 'Pokébola impresa en 3D', cat: 'impresion3d', techs: ['impresion3d'], price: 12, colors: [C('Rojo y blanco', '#C8281E')], sizes: ['Única'], shape: 'mug', badge: 'Edición limitada', desc: 'Pieza con forma de Pokébola impresa en 3D: taza, portalápices o maceta para escritorio. Se imprime a pedido.', bullets: ['Impresión 3D a pedido', 'Colores a elección (consultar)', 'Ideal para regalo geek'] }
   ];
+  // Tarjeta de producto compartida (build en Node y tienda en el navegador)
+  BP.pcard = p => {
+    const img = p.photo
+      ? `<img src="${p.photo}" alt="${p.name}" width="800" height="1000" loading="lazy">`
+      : `<div class="art">${BP.art(p.shape, p.colors[0].hex, { label: p.name })}</div>`;
+    return `<a class="pcard" href="producto-${p.id}.html"><div class="img${p.photo ? ' photo' : ''}">${img}${p.badge ? `<span class="tag">${p.badge}</span>` : ''}<span class="quick">Ver y personalizar</span></div>
+<div class="info"><span class="name">${p.name}</span><span class="meta">${p.techs.map(t => BP.techniques[t].name).join(' · ')}</span>
+<div class="swatches">${p.colors.slice(0, 5).map(c => `<i style="background:${c.hex}" title="${c.n}"></i>`).join('')}</div>
+<div class="buy"><div class="price"><b>${BP.money(p.price)}</b><small>c/u</small></div><span class="stock">Disponible</span></div></div></a>`;
+  };
   BP.getProduct = id => BP.products.find(p => p.id === id);
   // Tallas de niño disponibles en prendas
   ['camiseta-clasica', 'camiseta-oversize', 'camiseta-dryfit', 'jersey-equipo', 'polo-uniforme', 'hoodie-clasico', 'hoodie-sin-capucha'].forEach(id => { BP.getProduct(id).kids = true; });
