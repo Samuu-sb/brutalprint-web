@@ -37,6 +37,8 @@ function head(p) {
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&family=Special+Elite&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
+${p.modules ? '<script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js","three/addons/":"./assets/vendor/three/"}}</script>' : ''}
+${(p.preload || []).map(u => `<link rel="${/\.js$/.test(u) ? 'modulepreload' : 'preload'}" href="${u}"${/\.js$/.test(u) ? '' : ' as="fetch" crossorigin'}>`).join('')}
 ${p.jsonld ? '<script type="application/ld+json">' + JSON.stringify(p.jsonld) + '</script>' : ''}
 </head>`;
 }
@@ -99,7 +101,7 @@ function page(p) {
   const scripts = ['config', 'data', 'art', 'app'].concat(p.scripts || []);
   return head(p) + '\n' + header(p.current || p.file) + '\n' + p.body + '\n' + footer() + '\n' +
     scripts.map(s => `<script src="assets/js/${s}.js"></script>`).join('\n') + '\n' +
-    (p.modules ? '<script type="importmap">{"imports":{"three":"./assets/vendor/three/three.module.js","three/addons/":"./assets/vendor/three/"}}</script>\n' + p.modules.map(s => `<script type="module" src="assets/js/${s}.js"></script>`).join('\n') + '\n' : '') + '</body>\n</html>\n';
+    (p.modules ? p.modules.map(s => `<script type="module" src="assets/js/${s}.js"></script>`).join('\n') + '\n' : '') + '</body>\n</html>\n';
 }
 
 module.exports = { page, ico, BP };

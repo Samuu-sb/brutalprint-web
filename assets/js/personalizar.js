@@ -20,12 +20,14 @@
   }
   function sync3d() {
     if (!st.p.model || !BP.viewer3d) { use3d = false; mode(); return; }
+    const box = stage3d.parentElement; box.classList.add('loading'); use3d = true; mode();
     BP.viewer3d.load(st.p.model).then(() => {
+      box.classList.remove('loading');
       use3d = true; mode();
       BP.viewer3d.setColor(st.p.colors[st.ci].hex);
       if (st.img) BP.viewer3d.setImage(st.img); else BP.viewer3d.removeImage();
       BP.viewer3d.setScale(st.s); BP.viewer3d.setRotation(st.r);
-    }).catch(() => { use3d = false; mode(); BP.toast('No pudimos cargar el modelo 3D; usamos la vista 2D'); });
+    }).catch(() => { box.classList.remove('loading'); use3d = false; mode(); BP.toast('No pudimos cargar el modelo 3D; usamos la vista 2D'); });
   }
   window.addEventListener('bp3d-ready', sync3d);
 

@@ -192,7 +192,7 @@ pages.push({
 
 /* ---------------- PERSONALIZADOR ---------------- */
 pages.push({
-  file: 'personalizar.html', title: 'Personalizador con vista previa | Brutal Print Panamá', desc: 'Sube tu diseño y míralo sobre una camiseta, gorra, taza o hoodie antes de pedir. Descarga la vista previa y personaliza tu estilo.', scripts: ['personalizar'], modules: ['visor3d'],
+  file: 'personalizar.html', title: 'Personalizador con vista previa | Brutal Print Panamá', desc: 'Sube tu diseño y míralo sobre una camiseta, gorra, taza o hoodie antes de pedir. Descarga la vista previa y personaliza tu estilo.', scripts: ['personalizar'], modules: ['visor3d'], preload: ['assets/vendor/three/three.module.js', 'assets/vendor/three/loaders/GLTFLoader.js', 'assets/vendor/three/controls/OrbitControls.js', 'assets/vendor/three/geometries/DecalGeometry.js', 'assets/vendor/three/utils/BufferGeometryUtils.js'],
   body: `${phead('Personalizador', 'Sube tu diseño, muévelo y ve cómo queda. Es una vista previa orientativa: la prueba final la hacemos nosotros.')}
 <div class="page"><div class="wrap two">
  <div class="stage"><canvas id="cv" width="800" height="800" aria-label="Vista previa del producto con tu diseño"></canvas><div id="stage3d" hidden aria-label="Vista previa 3D del producto"></div></div>
