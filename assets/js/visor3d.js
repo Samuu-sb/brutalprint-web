@@ -13,7 +13,7 @@ const host = document.getElementById('stage3d');
 
 const H = 3; // alto normalizado del modelo (unidades de escena)
 const st = { pos: null, normal: null, scale: 80, rot: 0, tex: null, aspect: 1 };
-let renderer, scene, camera, controls, root, shirt, decal, ready = false, color = '#111113';
+let spotY = 0.35, renderer, scene, camera, controls, root, shirt, decal, ready = false, color = '#111113';
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
 
 function render() { if (renderer) renderer.render(scene, camera); }
@@ -54,12 +54,21 @@ function load(url) {
     new GLTFLoader().load(url, gltf => {
       if (root) scene.remove(root);
       root = gltf.scene; root.userData.url = url;
+      // termo: quitamos la malla con textura de imagen y los textos/logos de la parte baja
+      if (/termo/.test(url)) {
+        const del = []; root.traverse(o => { if (o.isMesh && (o.material.map || /^Text/i.test(o.name))) del.push(o); });
+        del.forEach(o => o.parent.remove(o));
+      }
       let mesh = null; root.traverse(o => { if (o.isMesh && !mesh) mesh = o; });
       if (!mesh) { fail(new Error('Modelo sin malla')); return; }
       const box = new THREE.Box3().setFromObject(root), size = box.getSize(new THREE.Vector3()), c = box.getCenter(new THREE.Vector3());
       const k = H / size.y;
-      root.rotation.y = Math.PI; // este modelo trae el frente hacia -Z: lo giramos para ver el frente al cargar
-      root.scale.setScalar(k); root.position.copy(c.multiplyScalar(-k)); root.position.x *= -1; root.position.z *= -1;
+      // orientación inicial por modelo (rotación Y): la camiseta trae el frente hacia -Z; el hoodie ya mira a +Z; la taza lleva el asa al costado
+      const ry = /hoodie|sweater/.test(url) ? 0 : /taza/.test(url) ? Math.PI / 2 : Math.PI;
+      root.rotation.y = ry;
+      root.scale.setScalar(k);
+      root.position.copy(c.multiplyScalar(-k).applyAxisAngle(new THREE.Vector3(0, 1, 0), ry));
+      spotY = /toteBag/.test(url) ? -0.75 : 0.35; // el tote: centro del cuerpo, bajo las asas
       shirt = mesh;
       shirt.material = new THREE.MeshStandardMaterial({ color, roughness: 0.9, metalness: 0, side: THREE.DoubleSide });
       scene.add(root); scene.updateMatrixWorld(true);
@@ -77,9 +86,9 @@ function worldNormal(hit) {
   return n.normalize();
 }
 function defaultSpot() { // pecho, mirando al frente
-  ray.set(new THREE.Vector3(0, 0.35, 10), new THREE.Vector3(0, 0, -1));
+  ray.set(new THREE.Vector3(0, spotY, 10), new THREE.Vector3(0, 0, -1));
   const h = ray.intersectObject(shirt, false)[0];
-  return h ? { p: h.point, n: worldNormal(h) } : { p: new THREE.Vector3(0, 0.35, 0.7), n: new THREE.Vector3(0, 0, 1) };
+  return h ? { p: h.point, n: worldNormal(h) } : { p: new THREE.Vector3(0, spotY, 0.7), n: new THREE.Vector3(0, 0, 1) };
 }
 function place(s) { st.pos = s.p.clone(); st.normal = s.n.clone(); buildDecal(); }
 
