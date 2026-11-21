@@ -210,9 +210,8 @@ pages.push({
    <div class="field"><label class="f" for="pzQty">Cantidad</label><input type="number" id="pzQty" value="12" min="1"></div>
    <div class="pbuy"><button class="btn" id="pzDl" type="button">Descargar vista previa</button>
    <button class="btn wa" id="pzWa" type="button">${ico.wa} Pedir con esta vista previa</button>
-   <button class="btn alt" id="pzShare" type="button" hidden>Enviar imagen adjunta (compartir)</button>
    <a class="btn alt" id="pzProdLink" href="tienda.html">Ver producto y precios</a></div>
-   <p class="note" style="margin-top:1rem">Al tocar «Pedir con esta vista previa» se guarda una copia de la imagen para generar un enlace que se incluye en tu mensaje, y se abre el chat de Brutal Print directamente. En celulares compatibles también puedes usar «Enviar imagen adjunta»: eliges WhatsApp y el contacto Brutal Print (${cfg.whatsappDisplay}). Tu archivo de diseño original lo envías después, en el chat.</p></div>
+   <p class="note" style="margin-top:1rem">Al tocar «Pedir con esta vista previa» se guarda una copia de la imagen para generar un enlace que va en tu mensaje, y se abre el chat de Brutal Print directamente en WhatsApp. Tu archivo de diseño original lo envías después, en el chat.</p></div>
  </div>
 </div></div>`
 });

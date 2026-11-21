@@ -89,9 +89,8 @@
 
   $('#pzDl').onclick = () => { if (!st.img) { BP.toast('Sube tu diseño primero'); return; } const a = document.createElement('a'); a.download = 'vista-previa-brutalprint.png'; a.href = use3d ? BP.viewer3d.snapshot() : cv.toDataURL('image/png'); a.click(); BP.toast('Vista previa descargada ✔'); };
   /* ---- Pedir por WhatsApp ----
-     1) "Pedir con esta vista previa": sube la imagen y manda un ENLACE en el mensaje; abre directo el chat de Brutal Print
-        (no hace falta tener el número guardado).
-     2) "Enviar imagen adjunta" (solo celulares compatibles): menú de compartir del teléfono, la imagen va adjunta. */
+     "Pedir con esta vista previa" sube la imagen y manda un ENLACE en el mensaje; abre directo el chat de Brutal Print
+     (no hace falta tener el número guardado). Si la subida falla, descarga la imagen y abre el chat con el texto. */
   function dataUrlToFile(url, name) { // síncrono, para no perder el gesto del usuario (iOS)
     const [head, b64] = url.split(','), mime = (head.match(/:(.*?);/) || [])[1] || 'image/png', bin = atob(b64), u8 = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
@@ -100,12 +99,8 @@
   const previewFile = () => { try { return dataUrlToFile(use3d ? BP.viewer3d.snapshot() : cv.toDataURL('image/png'), 'vista-previa-brutalprint.png'); } catch (e) { return null; } };
   const waText = link => `Hola Brutal Print, armé una vista previa en el personalizador:\n• Producto: ${st.p.name} (${st.p.colors[st.ci].n})\n• Cantidad: ${+$('#pzQty').value || 1}\n` +
     (link ? `• Vista previa: ${link}\nTe envío mi archivo de diseño original por aquí.` : 'Te adjunto mi diseño y la imagen de la vista previa.');
-  const canShareFile = () => { try { return !!(navigator.canShare && navigator.canShare({ files: [new File(['x'], 'a.png', { type: 'image/png' })] })); } catch (e) { return false; } };
   const download = f => { const a = document.createElement('a'); a.download = f.name; a.href = URL.createObjectURL(f); a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); };
   const goWa = (w, url) => { if (w && !w.closed) { w.location.href = url; } else { location.href = url; } };
-
-  const shareBtn = $('#pzShare');
-  if (shareBtn && canShareFile()) shareBtn.hidden = false;
 
   $('#pzWa').onclick = function () {
     BP.track('lead', { source: 'personalizador' });
@@ -126,15 +121,5 @@
       .finally(() => { btn.disabled = false; btn.innerHTML = label; });
   };
 
-  if (shareBtn) shareBtn.onclick = () => {
-    if (!st.img) { BP.toast('Sube tu diseño primero'); return; }
-    const file = previewFile(); if (!file) return;
-    BP.track('lead', { source: 'personalizador_compartir' });
-    navigator.share({ files: [file], text: waText() }).then(() => BP.toast('Elige a Brutal Print en WhatsApp ✔')).catch(err => {
-      if (!err || err.name === 'AbortError') return;
-      download(file); BP.toast('Vista previa descargada: adjúntala en WhatsApp');
-    });
-    BP.toast('Elige WhatsApp y el contacto ' + BP.config.whatsappDisplay);
-  };
   center(); ui(); draw(); sync3d();
 })(window.BP);
